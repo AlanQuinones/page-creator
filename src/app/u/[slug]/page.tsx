@@ -1,53 +1,6 @@
-import { notFound } from 'next/navigation';
+import { LINK_PAGES } from '@/data/linkPages';
 
-// Datos de ejemplo por ahora (sin base de datos)
-const PAGES: Record<
-  string,
-  {
-    title: string;
-    description: string;
-    themeColor: string;
-    links: { label: string; url: string }[];
-  }
-> = {
-  demo: {
-    title: 'Demo QR – Alan',
-    description: 'Ejemplo de página QR creada con Next.js.',
-    themeColor: '#1D4ED8', // azul
-    links: [
-      {
-        label: 'WhatsApp',
-        url: 'https://wa.me/526565723869?text=Hola%20Alan%2C%20te%20contacto%20desde%20tu%20p%C3%A1gina%20QR',
-      },
-      {
-        label: 'Instagram',
-        url: 'https://instagram.com/tu_cuenta',
-      },
-      {
-        label: 'Sitio web',
-        url: 'https://alanquinones.cloud',
-      },
-    ],
-  },
-
-  // Puedes ir agregando más ejemplos:
-  glambloom: {
-    title: 'Glam Bloom · Maquillaje',
-    description: 'Maquillaje original y productos de belleza.',
-    themeColor: '#BE185D', // rosa
-    links: [
-      {
-        label: 'WhatsApp pedidos',
-        url: 'https://wa.me/526565723869?text=Quiero%20cotizar%20productos%20Glam%20Bloom',
-      },
-      {
-        label: 'Instagram',
-        url: 'https://instagram.com/glambloom_oficial',
-      },
-    ],
-  },
-};
-
+// 👇 params es una Promise en Next 15
 type PageProps = {
   params: Promise<{
     slug: string;
@@ -55,12 +8,10 @@ type PageProps = {
 };
 
 export default async function QRPage({ params }: PageProps) {
-  // Desempaquetamos la Promise
   const { slug } = await params;
 
-  const page = PAGES[slug];
+  const page = LINK_PAGES[slug];
 
-  // Si no existe el slug, mostramos un 404 simple
   if (!page) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-black text-white">
