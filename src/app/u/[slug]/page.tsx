@@ -49,17 +49,24 @@ const PAGES: Record<
 };
 
 type PageProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
-export default function QRPage({ params }: PageProps) {
-  const page = PAGES[params.slug];
+export default async function QRPage({ params }: PageProps) {
+  // Desempaquetamos la Promise
+  const { slug } = await params;
 
-  // Si no existe el slug, 404
+  const page = PAGES[slug];
+
+  // Si no existe el slug, mostramos un 404 simple
   if (!page) {
-    notFound();
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black text-white">
+        <p>Esta página QR no existe.</p>
+      </div>
+    );
   }
 
   const { title, description, themeColor, links } = page;
